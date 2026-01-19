@@ -991,7 +991,7 @@ My work focuses on writing efficient, maintainable code, optimizing performance,
               <h3>Get In Touch</h3>
               <p>With clarity and purpose, relationships grow strong and challenges are not ignored. From the very beginning.</p>
 
-              <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+              <form id="contact-form" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
                 <div class="row gy-4">
 
                   <div class="col-md-6">
@@ -1057,6 +1057,37 @@ My work focuses on writing efficient, maintainable code, optimizing performance,
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function () {
+    emailjs.init("R9OD692247mT_Fhww"); // 🔹 replace with your EmailJS Public Key
+  })();
+
+  document.getElementById("contact-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const loading = this.querySelector(".loading");
+    const errorMsg = this.querySelector(".error-message");
+    const sentMsg = this.querySelector(".sent-message");
+
+    loading.style.display = "block";
+    errorMsg.style.display = "none";
+    sentMsg.style.display = "none";
+
+    emailjs.sendForm("service_zle3dzy", "template_azzrzgk", this)
+      .then(() => {
+        loading.style.display = "none";
+        sentMsg.style.display = "block";
+        this.reset();
+      })
+      .catch((error) => {
+        loading.style.display = "none";
+        errorMsg.innerHTML = "Failed to send message. Please try again.";
+        errorMsg.style.display = "block";
+        console.error("EmailJS error:", error);
+      });
+  });
+</script>
 
 </body>
 
